@@ -3,17 +3,27 @@ import pygame
 import os
 
 
+def resource_path(relative_path):
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
+
+
 # Saved files import
 def files():
     saves = []
-    dir_path = r"C:\Users\Mateusz\Desktop\Programowanie\PY\Projects\Conway's Game of Life\saves"
-    for path in os.listdir(dir_path):
-        if os.path.isfile(os.path.join(dir_path, path)):
+    if 'saves' not in os.listdir(os.path.abspath('.')):
+        os.mkdir(os.path.abspath('saves'))
+    else:
+        dir_path = os.path.join(os.path.abspath('.'), 'saves')
+        for path in os.listdir(dir_path):
             path = path.split('.')
             if path[-1] == 'txt':
                 path.pop(-1)
-                path = '.'.join(path)
-            saves.append(path)
+                saves.append('.'.join(path))
     return saves
 
 
@@ -66,6 +76,8 @@ def save(display, board, name, loaded):
                     if name in saved and not loaded:
                         font_color = 'red'
                     else:
+                        if 'saves' not in os.listdir():
+                            os.mkdir('saves')
                         file = open(f'saves/{name}.txt', 'w')
                         for i in range(len(board)):
                             file.writelines(''.join(board[i]))
@@ -156,6 +168,8 @@ def load(display):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1 and 480 < event.pos[0] < 580 and 330 < event.pos[1] < 345:
                     if name in saved:
+                        if 'saves' not in os.listdir():
+                            os.mkdir('saves')
                         file = open(rf'saves\{name}.txt', 'r')
                         for i in range(60):
                             board.append([x for x in file.readline()[:-1]])

@@ -1,19 +1,30 @@
 import pygame
+import os
+import sys
 import game
 import editor
 
 
+def resource_path(relative_path):
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
+
+
 def main():
     # Loading assets
-    assets = {"Cell_alive": pygame.image.load("Assets/cell_alive.png"),
-              "Cell_dead": pygame.image.load("Assets/cell_dead.png"),
-              "Block": pygame.image.load("Assets/Block.png")}
+    assets = {'Cell_alive': pygame.image.load(resource_path('cell_alive.png')),
+              'Cell_dead': pygame.image.load(resource_path('cell_dead.png')),
+              'Block': pygame.image.load(resource_path('block.png'))}
 
     # Pseudo global variables
     choice = editor.create(90, 60)
     base_choice = choice
     generation = 1
-    mode = "Manual"
+    mode = 'Manual'
     name = 'No chosed'
 
     # Base display settings
@@ -85,29 +96,29 @@ def main():
         display.fill([150, 150, 150])
         for i in range(len(choice)):
             for j in range(len(choice[i])):
-                if choice[i][j] == "#":
-                    display.blit(assets["Block"], [10 * j, 10 * i])
-                elif choice[i][j] == "+":
-                    display.blit(assets["Cell_alive"], [10 * j, 10 * i])
+                if choice[i][j] == '#':
+                    display.blit(assets['Block'], [10 * j, 10 * i])
+                elif choice[i][j] == '+':
+                    display.blit(assets['Cell_alive'], [10 * j, 10 * i])
                 else:
-                    display.blit(assets["Cell_dead"], [10 * j, 10 * i])
+                    display.blit(assets['Cell_dead'], [10 * j, 10 * i])
 
         # Drawing info
-        display.blit(lower_font.render(f"Generation: {generation}", True, [0, 0, 0]), [905, 100])
-        display.blit(lower_font.render(f"Mode[A]: {mode}", True, [0, 0, 0]), [905, 120])
+        display.blit(lower_font.render(f'Generation: {generation}', True, [0, 0, 0]), [905, 100])
+        display.blit(lower_font.render(f'Mode[A]: {mode}', True, [0, 0, 0]), [905, 120])
 
         display.blit(lower_font.render(f'{name}', True, [0, 0, 0]), [915, 30])
         display.blit(lower_font.render("Board's name:", True, [0, 0, 0]), [915, 10])
 
         # Drawing buttons
         pygame.draw.rect(display, reset_button_color, [930, 394, 235, 53])
-        display.blit(higher_font.render("RESET", True, [0, 0, 0]), [950, 394])
+        display.blit(higher_font.render('RESET', True, [0, 0, 0]), [950, 394])
 
         pygame.draw.rect(display, load_button_color, [930, 457, 235, 53])
-        display.blit(higher_font.render("LOAD", True, [0, 0, 0]), [965, 457])
+        display.blit(higher_font.render('LOAD', True, [0, 0, 0]), [965, 457])
 
         pygame.draw.rect(display, edit_button_color, [930, 520, 235, 53])
-        display.blit(higher_font.render("EDITOR", True, [0, 0, 0]), [930, 520])
+        display.blit(higher_font.render('EDITOR', True, [0, 0, 0]), [930, 520])
 
         # Ending commands
         clock.tick_busy_loop(60)
