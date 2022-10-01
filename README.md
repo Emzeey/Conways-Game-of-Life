@@ -10,7 +10,8 @@ In simulation mode:
 Space - generation per generation
 Enter - switch modes (auto/manual)
 
-In editor mode:\n
+In editor mode:
+
 Esc - back
 
 In save/load mode:
